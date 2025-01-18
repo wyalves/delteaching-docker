@@ -9,7 +9,7 @@ const App = () => {
   // Função para buscar todos os clientes
   const fetchCustomers = async () => {
     try {
-      const response = await fetch("http://node-backend:3000/customers");
+      const response = await fetch("http://localhost:3000/customers");
       const data = await response.json();
       setCustomers(data);
     } catch (error) {
@@ -27,7 +27,7 @@ const App = () => {
     if (!newCustomer) return alert("Por favor, insira um nome.");
 
     try {
-      const response = await fetch("http://node-backend:3000/customers", {
+      const response = await fetch("http://localhost:3000/customers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
