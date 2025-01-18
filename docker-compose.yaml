@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: customerdb
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  node-backend:
+    build:
+      context: ./backend
+    container_name: node-backend
+    environment:
+      DATABASE_URL: postgres://admin:admin@db:5432/customerdb
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: react-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - node-backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  db-data:
